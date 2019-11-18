@@ -1,0 +1,81 @@
+body {
+    font-family: 'Comfortaa', sans-serif;
+}
+
+img {
+    float: left;
+    margin-right: 20px;
+}
+
+.main-container {
+    margin-left: 30px;
+    margin-right: 50px;
+}
+
+.person {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: solid 1px #d1d1d1;
+    border-radius: 10px;
+    box-shadow: #ececec 7px 5px;
+}
+
+.person-name {
+    font-size: x-large;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.big-btn {
+    padding: 10px;
+    border: solid 1px #d1d1d1;
+    font-size: x-large;
+    box-shadow: #ececec 4px 3px;
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+.big-btn:hover {
+    position: relative;
+    top: 3px;
+    left: 4px;
+    box-shadow: 0 0;
+}
+
+.register {
+    padding-top: 20px;
+    margin-bottom: 30px;
+}
+
+.popup {
+    padding: 10px;
+    position: fixed;
+    top: 30%;
+    left: 30%;
+    width: 300px;
+    height: 200px;
+    background: rgba(255, 153, 190, 0.7);
+    display: none;
+}
+
+#close-popup {
+    color: red;
+    cursor: pointer;
+}
+
+fieldset {
+    border-color: blue;
+}
+
+.error {
+    margin-left: 5px;
+    color: red;
+}
+#infobox {
+    color: red;
+}
+
+.monospaced {
+    font-family: "Source Code Pro", 'monospace';
+    border: 1px solid orange;
+    display: none;
+}

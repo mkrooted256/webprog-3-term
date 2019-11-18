@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap&subset=cyrillic,cyrillic-ext"
+          rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <link href="styles.css" rel="stylesheet">
+    <title>Фізико-технічний Інститут</title>
+</head>
+<body>
+<header>
+    <h1>Фізико-технічний Інститут</h1>
+    <hr>
+</header>
+<section>
+    <div class="top-panel">
+        <h2>Реєстрація у базі випускників</h2>
+        <hr>
+    </div>
+    <div class="main-container">
+        <form>
+            <fieldset>
+                <legend>Основні дані</legend>
+                <p>
+                    <label for="name-1">Ім'я: </label>
+                    <input required type="text" id="name-1" name="name-1" pattern="^[a-zA-Z\-\']{3,20}">
+                </p>
+                <p>
+                    <label for="name-2">Призвище: </label>
+                    <input required type="text" id="name-2" name="name-2" pattern="^[a-zA-Z\-\']{3,20}">
+                </p>
+                <p>
+                    <label for="name-3">По-батькові: </label>
+
+                    <input required type="text" id="name-3" name="name-3" pattern="^[a-zA-Z\-\']{3,20}">
+                </p>
+                <p>
+                    <label for="gradyear">Рік випуску: </label>
+                    <input required type="number" min="1950" max="2019" id="gradyear" name="gradyear">
+                </p>
+                <p>
+                    Стать:
+                    <input type="radio" name="gender" value="Чоловіча"> чоловіча
+                    <input type="radio" name="gender" value="Жіноча"> жіноча
+                    <input type="radio" name="gender" value="Інше"> інше
+                </p>
+            </fieldset>
+            <fieldset>
+                <legend>Контакти</legend>
+                <p>
+                    <label for="phone">Номер телефону (у міжнародному форматі, тільки цифри та +): </label>
+                    <input required type="tel" id="phone" name="phone" pattern="^\+[0-9]{9,}$">
+                </p>
+                <p>
+                    <label for="email">E-mail: </label>
+                    <input required type="email" id="email" name="email">
+                </p>
+                <p>
+                    Хочете отримувати повідомлення про нових користувачів?
+                    <select required name="notifs">
+                        <option value="1">Так!</option>
+                        <option value="0">Ні</option>
+                    </select>
+                </p>
+            </fieldset>
+            <input type="submit">
+        </form>
+    </div>
+</section>
+<footer>
+    <hr>
+    <p><b>Михайло Корешков</b> (<a href="https://t.me/mkrooted">@mkrooted</a>), ФІ-81</p>
+    <p>Використані зображення <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a>
+        з <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></p>
+    <hr>
+</footer>
+</body>
+</html>
