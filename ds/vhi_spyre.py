@@ -2,6 +2,7 @@ from typing import List, Any, Tuple
 
 from spyre import server
 import load
+import os
 
 # Load all Ukrainian provinces
 p = load.VHIProvider.load_provinces()
@@ -135,5 +136,10 @@ class VHIapp(server.App):
         return css
 
 
-app = VHIapp()
-app.launch()
+if __name__ == '__main__':
+    app = VHIapp()
+    port = os.getenv('SPYRE_PORT', None)
+    if port:
+        app.launch(port=port)
+    else:
+        app.launch()
