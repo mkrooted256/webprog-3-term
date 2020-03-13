@@ -65,27 +65,51 @@ class VHIapp(server.App):
         "control_id": "update_data",
         "type": "table",
         "id": "series_table",
-        "on_page_load": True,
         "tab": "Table"
+    }, {
+        "control_id": "update_data",
+        "type": "plot",
+        "id": "plot",
+        "tab": "Plot"
     }]
 
     def __init__(self) -> None:
         super().__init__()
         self.provider = load.VHIProvider()
         self.provider.load_from_disk()
+        self.data_cache = None
+        self.params_cache = None
 
     def getData(self, params):
-        series = params['series']
-        year = int(params['year'])
-        weeks = int(params['week_low']), int(params['week_high'])
-        pid = int(params['pid'])
-        if series == 'empty':
-            series = 'VHI'
-        df = self.provider.get_vhi(self.provider.province_from_old(pid))
-        return df[(df['year'] == year) & (weeks[0] <= df['week']) & (df['week'] <= weeks[1])][['year', 'week', series]]
+        params.pop("output_id", None)    # caching layer
+        if self.params_cache != params:  # caching layer
+            series = params['series']
+            year = int(params['year'])
+            weeks = int(params['week_low']), int(params['week_high'])
+            pid = int(params['pid'])
+            if series == 'empty':
+                series = 'VHI'
+            df = self.provider.get_vhi(self.provider.province_from_old(pid))
+
+            # caching layer
+            self.data_cache = df[(df['year'] == year) &
+                                 (weeks[0] <= df['week']) &
+                                 (df['week'] <= weeks[1])][['year', 'week', series]]
+            self.params_cache = params
+        return self.data_cache
+
+    def getPlot(self, params):
+        df = self.getData(params).set_index('week').drop(['year'], axis=1)
+        plt_obj = df.plot()
+        plt_obj.set_ylabel(params['series'])
+        plt_obj.set_title(
+            "%s %s data for %s province" % (int(params['year']), params['series'], PROVINCES[int(params["pid"]) - 1][1])
+        )
+        fig = plt_obj.get_figure()
+        return fig
 
     def getHTML(self, params):
-        pid, pname, s = params["pid"], PROVINCES[int(params["pid"])-1][1], params["series"]
+        pid, pname, s = params["pid"], PROVINCES[int(params["pid"]) - 1][1], params["series"]
         html = "Here are your inputs: <table>" \
                "<tr><td>Series</td><td>%s</td></tr>" \
                "<tr><td>Province</td><td>%s (%s)</td></tr>" \
