@@ -4,9 +4,11 @@ import os
 import boto3
 import uuid
 
+def normalise_path(rel):
+    return os.path.join(os.path.dirname(__file__), rel)
 
 def tidy_vhi_up(provinces: pd.DataFrame):
-    base_filename = "cache/vhi_"
+    base_filename = normalise_path("cache/vhi_")
     for index, row in provinces.iterrows():
         with open(base_filename + str(row.provinceID) + ".csv", "rb+") as f:
             content = f.read()
@@ -29,7 +31,7 @@ def tidy_vhi_up(provinces: pd.DataFrame):
 
 def redownload_vhi(provinces: pd.DataFrame):
     url = "https://www.star.nesdis.noaa.gov/smcd/emb/vci/VH/get_provinceData.php?country=UKR&provinceID={}&year1=1981&year2=2019&type=Mean"
-    base_filename = "cache/vhi_"
+    base_filename = normalise_path("cache/vhi_")
     for index, row in provinces.iterrows():
         local_url = url.format(row.provinceID)
         print("Loading", row.provinceID, "(" + local_url + ")")
@@ -51,7 +53,7 @@ class AWSClient:
 
         for index, row in provinces.iterrows():
             print("Uploading vhi_{}".format(row.provinceID))
-            with open("temp.csv", "w") as f:
+            with open(normalise_path("temp.csv"), "w") as f:
                 frames[row.provinceID].to_csv(f, index=False)
             self.bucket.upload_file(Filename="temp.csv", Key="vhi_{}.csv".format(row.provinceID))
         print("Bucket ready")
@@ -63,8 +65,8 @@ class AWSClient:
         self.bucket = self.s3.Bucket(bucket_name)
         for index, row in provinces.iterrows():
             print("Downloading vhi_{}".format(row.provinceID))
-            self.bucket.Object("vhi_{}.csv".format(row.provinceID)).download_file("temp.csv")
-            with open("temp.csv", "r") as f:
+            self.bucket.Object("vhi_{}.csv".format(row.provinceID)).download_file(normalise_path("temp.csv"))
+            with open(normalise_path("temp.csv"), "r") as f:
                 frames[row.provinceID] = pd.read_csv(f, sep="[, ]+", engine="python")
         print("Loaded.")
         return frames
@@ -79,12 +81,12 @@ class VHIProvider:
 
     @staticmethod
     def load_provinces():
-        df = pd.read_csv('selected_provinces.csv', header=1)
+        df = pd.read_csv(normalise_path('selected_provinces.csv'), header=1)
         return df[df['CountryCode'] == 'UKR'].filter(items=["provinceID", "province_name"])
 
     def __init__(self):
         self.raw_provinces = self.load_provinces()
-        self.new_prid_rules = pd.read_csv('new_provinces.csv', encoding="utf_8")
+        self.new_prid_rules = pd.read_csv(normalise_path('new_provinces.csv'), encoding="utf_8")
         self.frames = None
 
     def load_from_disk(self):
@@ -92,7 +94,7 @@ class VHIProvider:
         frames = {}
         for index, row in self.raw_provinces.iterrows():
             print("loading vhi_{}".format(row.provinceID))
-            frames[row.provinceID] = pd.read_csv(base_filename + str(row.provinceID) + ".csv", sep="[, ]+",
+            frames[row.provinceID] = pd.read_csv(normalise_path(base_filename + str(row.provinceID) + ".csv"), sep="[, ]+",
                                                  engine="python")
         self.frames = frames
 
