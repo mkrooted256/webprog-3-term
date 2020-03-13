@@ -138,8 +138,4 @@ class VHIapp(server.App):
 
 if __name__ == '__main__':
     app = VHIapp()
-    port = os.getenv('SPYRE_PORT', None)
-    if port:
-        app.launch(port=port)
-    else:
-        app.launch()
+    app.launch('0.0.0.0', 4200)
