@@ -142,7 +142,7 @@ class VHIHandler:
         }
 
     def vhi_by_level(self, level: int):
-        result = self.df[self.df['VHI'] < self.VHI_LEVELS[level] & self.df['VHI'] > self.VHI_LEVELS[level - 1]]
+        result = self.df[(self.df['VHI'] < self.VHI_LEVELS[level]) & (self.df['VHI'] > self.VHI_LEVELS[level - 1])]
         years = result['year'].drop_duplicates().values
         return {
             "vhi": result,
